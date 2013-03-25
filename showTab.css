@@ -1,0 +1,12 @@
+#side-search-tab{
+    visibility: hidden;
+    z-index: 2147483647;
+    border: 1px solid black !important;
+    width: 500px;
+    height: 90%;
+    position: fixed;
+    top: 5%;
+    right: -500px;
+    -webkit-transition: all 0.3s ease-out;
+/*    -webkit-transform: translate3d(-500px, 0, 0);
+*/}

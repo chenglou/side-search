@@ -21,17 +21,30 @@
 		<key>Context Menu Items</key>
 		<array>
 			<dict>
+				<key>Command</key>
+				<string></string>
 				<key>Identifier</key>
 				<string>searchKeyword</string>
 				<key>Title</key>
 				<string>Side Search</string>
 			</dict>
 		</array>
+		<key>Global Page</key>
+		<string>global.html</string>
 	</dict>
 	<key>Content</key>
 	<dict>
 		<key>Scripts</key>
-		<dict/>
+		<dict>
+			<key>End</key>
+			<array>
+				<string>showTab.js</string>
+			</array>
+		</dict>
+		<key>Stylesheets</key>
+		<array>
+			<string>showTab.css</string>
+		</array>
 	</dict>
 	<key>Description</key>
 	<string>Display search result right inside your tab.</string>
