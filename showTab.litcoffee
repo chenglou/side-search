@@ -26,7 +26,16 @@ Initially, request the template string.
                     sideSearchTab = document.getElementById("side-search-tab")
                     sideSearchTab.style.visibility = "visible"
                     sideSearchTab.style.webkitTransform = "translate3d(-500px, 0, 0)"
+
+Using ajax to get another domain's content is only allowed by the global script.
+It loads the page, takes the html and pass it here.
+
                 when "searchResultReturned"
-                    document.getElementById("side-search-tab-content").innerHTML = event.message
+                    doc = document.getElementById("side-search-tab-content").contentWindow.document
+                    doc.open()
+                    doc.close()
+                    doc.open()
+                    doc.write event.message
+                    doc.close()
 
         safari.self.tab.dispatchMessage "requestTemplate"
