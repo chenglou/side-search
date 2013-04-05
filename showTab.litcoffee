@@ -2,10 +2,9 @@ This event triggers before the context menu opens. It sends the selected text to
 the global script. The latter checks whether the selection (`event.userInfo`) is
 empty.
 
-    onContextmenu = (event) ->
+    document.addEventListener "contextmenu", (event) ->
         safari.self.tab.setContextMenuEventUserInfo event, window.getSelection().toString().trim()
 
-    document.addEventListener "contextmenu", onContextmenu
 
 Script is injected once per window/iframe. Need to ignore iframes.
 
