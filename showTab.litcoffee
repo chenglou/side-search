@@ -13,6 +13,10 @@ Script is injected once per window/iframe. Need to ignore iframes.
 Initially, request the template string.
 
         template = ""
+        links = []
+        currentPageIndex = 0
+        prevButton = null
+        nextButton = null
         safari.self.addEventListener "message", (event) ->
             switch event.name
                 when "templateSentBack"
@@ -21,20 +25,69 @@ Initially, request the template string.
                     tab.setAttribute "id", "side-search-tab"
                     tab.innerHTML = template
                     document.getElementsByTagName("body")[0].appendChild tab
+                    activateNavigationButtons()
+
                 when "showSearchTab"
                     sideSearchTab = document.getElementById("side-search-tab")
                     sideSearchTab.style.visibility = "visible"
                     sideSearchTab.style.webkitTransform = "translate3d(-500px, 0, 0)"
 
 Using ajax to get another domain's content is only allowed by the global script.
-It loads the page, takes the html and pass it here.
+It loads the search result page, parses it and returns an array of links. Here,
+we then specify which link page we want to fetch.
 
                 when "searchResultReturned"
-                    doc = document.getElementById("side-search-tab-content").contentWindow.document
-                    doc.open()
-                    doc.close()
-                    doc.open()
-                    doc.write event.message
-                    doc.close()
+                    links = event.message
+                    safari.self.tab.dispatchMessage "requestPage", links[0]
+
+                when "pageReturned"
+                    iframeContent = document.getElementById("side-search-tab-content").contentWindow.document
+                    iframeContent.open()
+                    iframeContent.close()
+                    iframeContent.open()
+                    iframeContent.write event.message
+                    iframeContent.close()
+
+        activateNavigationButtons = ->
+            prevButton = document.getElementById "side-search-button-prev"
+            nextButton = document.getElementById "side-search-button-next"
+            prevButton.addEventListener "click", (e) ->
+                enable nextButton
+                if currentPageIndex > 0
+                    currentPageIndex--
+                    safari.self.tab.dispatchMessage "requestPage", links[currentPageIndex]
+                else
+                    disable e.target
+
+            nextButton.addEventListener "click", (e) ->
+                enable prevButton
+                if currentPageIndex < links.length - 1
+                    currentPageIndex++
+                    safari.self.tab.dispatchMessage "requestPage", links[currentPageIndex]
+                else
+                    disable e.target
+
+            return
+
+Order of addition/removal might be important here to avoid flickering.
+
+        disable = (button) ->
+            button.classList.remove "disabled"
+            button.classList.add "disabled"
+            button.classList.remove "enabled"
+        enable = (button) ->
+            button.classList.remove "enabled"
+            button.classList.add "enabled"
+            button.classList.remove "disabled"
+            
 
         safari.self.tab.dispatchMessage "requestTemplate"
+
+
+
+
+
+
+
+
+
