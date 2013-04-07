@@ -9,7 +9,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Side Search</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.github.chenglou.side-search</string>
+	<string>io.github.chenglou.side-search</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -60,7 +60,9 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>https://raw.github.com/chenglou/side-search/master/version.plist</string>
 	<key>Website</key>
-	<string>http://chenglou.github.com/side-search</string>
+	<string>http://chenglou.github.io/side-search</string>
 </dict>
 </plist>
