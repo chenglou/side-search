@@ -13,7 +13,8 @@ loading. The injected script will listen for the templateSent message.
             pageRequest.send()
             pageRequest.onreadystatechange = ->
                 if pageRequest.readyState is 4 and pageRequest.status is 200
-                    safari.application.activeBrowserWindow.activeTab.page.dispatchMessage "pageReturned", pageRequest.responseText
+                    parsedResponseText = parsePage pageRequest.responseText, event.message
+                    safari.application.activeBrowserWindow.activeTab.page.dispatchMessage "pageReturned", parsedResponseText
 
 Prevent the context menu item from appearing if no text is selected. The
 selection can only be sent by the injected script, since this global script has
@@ -33,7 +34,7 @@ On search triggering, fetch the google result page, parse the html and get all t
             searchResultsRequest.send()
             searchResultsRequest.onreadystatechange = ->
                 if searchResultsRequest.readyState is 4 and searchResultsRequest.status is 200
-                    links = parse searchResultsRequest.responseText
+                    links = parseSearchPage searchResultsRequest.responseText
                     safari.application.activeBrowserWindow.activeTab.page.dispatchMessage "searchResultReturned", links
 
 Now we parse the returned Google page. We're parsing with `text/sml` because
@@ -45,14 +46,38 @@ the sake of easiness, we'll settle for the former option for now.
 Safari's `parseFromString` doesn't allow text/html. Parsing using text/xml
 causes error on Google's page. We'll have to use some dirty hacks here.
 
-    parse = (content) ->
+    parseSearchPage = (responseText) ->
         documentContent = document.implementation.createHTMLDocument ""
-        documentContent.body.innerHTML = content
+        documentContent.body.innerHTML = responseText
         anchors = documentContent.getElementsByClassName "l"
         links = []
         for anchor in anchors
             links.push anchor.getAttribute "href"
         return links
+
+Some sites use relative URLs, which don't work within an iframe. Add a base URL.
+The base URL is formatted like this:
+
+* en.wikipedia.org/ (ends with a /)
+* en.wikipedia.org/wiki/test (doesn't end with /)
+
+We grab whatever's after the last slash and discard it.
+
+    parsePage = (responseText, link) ->
+        documentContent = document.implementation.createHTMLDocument ""
+        documentContent.documentElement.innerHTML = responseText
+        baseTag = documentContent.getElementsByTagName("base")[0]
+        if not baseTag?
+            baseTag = document.createElement "base"
+            lastSlashPosition = link.lastIndexOf "/"
+            baseURL = link
+            if lastSlashPosition isnt -1
+                baseURL = link[0..lastSlashPosition]
+            baseTag.setAttribute "href", baseURL
+
+            head = documentContent.getElementsByTagName("head")[0]
+            head.insertBefore baseTag, head.firstChild
+        return documentContent.documentElement.innerHTML
 
 
 
