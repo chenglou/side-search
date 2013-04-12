@@ -1,0 +1,47 @@
+totalWidth = 500px
+buttonWidth = 30px
+buttonsImageURL = "icons/Small Row.png"
+
+
+#side-search-tab
+  visibility: hidden
+  z-index: 2147483647
+  border: 1px solid #000 !important
+  width: 500px
+  height: 100%
+  position: fixed
+  top: 5%
+  right: -(totalWidth)
+  -webkit-transition: all 0.3s ease-out
+  /*    -webkit-transform: translate3d(-500px, 0, 0);
+  */
+
+#side-search-tab-content
+  width: totalWidth - buttonWidth
+  height: 100%
+  background-color: #fff
+  border: none
+
+#side-search-navigation
+  float: left
+  width: 30px
+  height: 100%
+  background-color: gray;
+
+  for i in 1 2 3 4
+    button:nth-child({i})
+      background-position: i * buttonWidth 0
+
+.side-search-button
+  width: buttonWidth
+  height: buttonWidth
+  display: inline-block
+  background: url(buttonsImageURL)
+
+
+button.enabled
+  border: 1px solid #008000
+
+button.disabled
+  border: 1px solid #f00
+

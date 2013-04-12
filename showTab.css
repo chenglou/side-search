@@ -1,32 +1,49 @@
-#side-search-tab{
-    visibility: hidden;
-    z-index: 2147483647;
-    border: 1px solid black !important;
-    width: 500px;
-    height: 90%;
-    position: fixed;
-    top: 5%;
-    right: -500px;
-    -webkit-transition: all 0.3s ease-out;
+#side-search-tab {
+  visibility: hidden;
+  z-index: 2147483647;
+  border: 1px solid #000 !important;
+  width: 500px;
+  height: 100%;
+  position: fixed;
+  top: 5%;
+  right: -500px;
+  -webkit-transition: all 0.3s ease-out;
 /*    -webkit-transform: translate3d(-500px, 0, 0);
-*/}
-
-#side-search-tab-content{
-    width: 100%;
-    height: 100%;
-    background-color: white;
+  */
 }
-
-.side-search-button{
-    width: 50px;
-    height: 50px;
-    display: inline-block;
+#side-search-tab-content {
+  width: 470px;
+  height: 100%;
+  background-color: #fff;
+  border: none;
 }
-
-button.enabled{
-    border: 1px solid green;
+#side-search-navigation {
+  float: left;
+  width: 30px;
+  height: 100%;
+  background-color: #808080;
 }
-
-button.disabled{
-    border: 1px solid red;
+#side-search-navigation button:nth-child(1) {
+  background-position: 30px 0;
+}
+#side-search-navigation button:nth-child(2) {
+  background-position: 60px 0;
+}
+#side-search-navigation button:nth-child(3) {
+  background-position: 90px 0;
+}
+#side-search-navigation button:nth-child(4) {
+  background-position: 120px 0;
+}
+.side-search-button {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background: url("icons/Small Row.png");
+}
+button.enabled {
+  border: 1px solid #008000;
+}
+button.disabled {
+  border: 1px solid #f00;
 }
