@@ -30,7 +30,7 @@ Initially, request the template string.
                 when "showSearchTab"
                     sideSearchTab = document.getElementById("side-search-tab")
                     sideSearchTab.style.visibility = "visible"
-                    sideSearchTab.style.webkitTransform = "translate3d(-500px, 0, 0)"
+                    sideSearchTab.style.webkitTransform = "translate3d(-600px, 0, 0)"
 
 Using ajax to get another domain's content is only allowed by the global script.
 It loads the search result page, parses it and returns an array of links. Here,
@@ -51,6 +51,9 @@ we then specify which link page we want to fetch.
         activateNavigationButtons = ->
             prevButton = document.getElementById "side-search-button-prev"
             nextButton = document.getElementById "side-search-button-next"
+            popoutButton = document.getElementById "side-search-button-popout"
+            closeButton = document.getElementById "side-search-button-close"
+
             prevButton.addEventListener "click", (e) ->
                 enable nextButton
                 if currentPageIndex > 0
@@ -67,6 +70,13 @@ we then specify which link page we want to fetch.
                 else
                     disable e.target
 
+            popoutButton.addEventListener "click", (e) ->
+                safari.self.tab.dispatchMessage "popoutPage", links[currentPageIndex]
+
+            closeButton.addEventListener "click", (e) ->
+                sideSearchTab = document.getElementById("side-search-tab")
+                sideSearchTab.style.webkitTransform = "translate3d(0, 0, 0)"
+
             return
 
 Order of addition/removal might be important here to avoid flickering.
@@ -79,7 +89,7 @@ Order of addition/removal might be important here to avoid flickering.
             button.classList.remove "enabled"
             button.classList.add "enabled"
             button.classList.remove "disabled"
-            
+
 
         safari.self.tab.dispatchMessage "requestTemplate"
 

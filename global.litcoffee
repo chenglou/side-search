@@ -6,7 +6,7 @@ loading. The injected script will listen for the templateSent message.
     safari.application.addEventListener "message", (event) ->
         if event.name is "requestTemplate"
             event.target.page.dispatchMessage "templateSentBack", template
-            
+
         if event.name is "requestPage"
             pageRequest = new XMLHttpRequest()
             pageRequest.open "GET", event.message
@@ -16,6 +16,9 @@ loading. The injected script will listen for the templateSent message.
                     parsedResponseText = parsePage pageRequest.responseText, event.message
                     safari.application.activeBrowserWindow.activeTab.page.dispatchMessage "pageReturned", parsedResponseText
 
+        if event.name is "popoutPage"
+            safari.application.activeBrowserWindow.openTab().url = event.message
+
 Prevent the context menu item from appearing if no text is selected. The
 selection can only be sent by the injected script, since this global script has
 no notion of tabs.
@@ -24,7 +27,7 @@ no notion of tabs.
         if not event.userInfo? or event.userInfo is ""
             event.target.disabled = yes
 
-On search triggering, fetch the google result page, parse the html and get all the links, return the links to 
+On search triggering, fetch the google result page, parse the html and get all the links, return the links to
 
     safari.application.addEventListener "command", (event) ->
         if event.command is "searchKeyword"

@@ -1,4 +1,5 @@
-totalWidth = 500px
+totalWidth = 600px
+totalHeightInPercent = 98
 buttonWidth = 30px
 buttonsImageURL = "icons/Small Row.png"
 
@@ -7,13 +8,13 @@ buttonsImageURL = "icons/Small Row.png"
   visibility: hidden
   z-index: 2147483647
   border: 1px solid #000 !important
-  width: 500px
-  height: 100%
+  width: totalWidth
+  height: (totalHeightInPercent)%
+  top: ((100 - totalHeightInPercent) / 2)%
   position: fixed
-  top: 5%
   right: -(totalWidth)
-  -webkit-transition: all 0.3s ease-out
-  /*    -webkit-transform: translate3d(-500px, 0, 0);
+  -webkit-transition: all 0.4s ease-out
+  /*    -webkit-transform: translate3d(-(totalWidth), 0, 0);
   */
 
 #side-search-tab-content
@@ -28,15 +29,20 @@ buttonsImageURL = "icons/Small Row.png"
   height: 100%
   background-color: gray;
 
-  for i in 1 2 3 4
+  for i in 1 2 3 4 5
     button:nth-child({i})
       background-position: i * buttonWidth 0
+
+#side-search-button-popout
+  position: absolute
+  bottom: 0
 
 .side-search-button
   width: buttonWidth
   height: buttonWidth
   display: inline-block
   background: url(buttonsImageURL)
+  outline: 1px solid red
 
 
 button.enabled
