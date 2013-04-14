@@ -1,7 +1,6 @@
 #side-search-tab {
   visibility: hidden;
   z-index: 2147483647;
-  border: 1px solid #000 !important;
   width: 600px;
   height: 98%;
   top: 1%;
@@ -14,8 +13,18 @@
 #side-search-tab-content {
   width: 570px;
   height: 100%;
-  background-color: #fff;
   border: none;
+}
+#side-search-tab-bg {
+  width: 570px;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  left: 30px;
+  visibility: hidden;
+}
+#side-search-tab-noResult {
+  visibility: hidden;
 }
 #side-search-navigation {
   float: left;
@@ -47,7 +56,6 @@
   height: 30px;
   display: inline-block;
   background: url("icons/Small Row.png");
-  outline: 1px solid #f00;
 }
 button.enabled {
   border: 1px solid #008000;

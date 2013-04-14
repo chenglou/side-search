@@ -7,7 +7,6 @@ buttonsImageURL = "icons/Small Row.png"
 #side-search-tab
   visibility: hidden
   z-index: 2147483647
-  border: 1px solid #000 !important
   width: totalWidth
   height: (totalHeightInPercent)%
   top: ((100 - totalHeightInPercent) / 2)%
@@ -20,8 +19,18 @@ buttonsImageURL = "icons/Small Row.png"
 #side-search-tab-content
   width: totalWidth - buttonWidth
   height: 100%
-  background-color: #fff
   border: none
+
+#side-search-tab-bg
+  width: totalWidth - buttonWidth
+  height: 100%
+  background-color: #fff
+  position: absolute
+  left: buttonWidth
+  visibility: hidden
+
+#side-search-tab-noResult
+  visibility: hidden
 
 #side-search-navigation
   float: left
@@ -42,8 +51,6 @@ buttonsImageURL = "icons/Small Row.png"
   height: buttonWidth
   display: inline-block
   background: url(buttonsImageURL)
-  outline: 1px solid red
-
 
 button.enabled
   border: 1px solid #008000

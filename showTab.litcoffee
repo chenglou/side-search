@@ -17,6 +17,8 @@ Initially, request the template string.
         currentPageIndex = 0
         prevButton = null
         nextButton = null
+        popoutButton = null
+        closeButton = null
         safari.self.addEventListener "message", (event) ->
             switch event.name
                 when "templateSentBack"
@@ -38,6 +40,12 @@ we then specify which link page we want to fetch.
 
                 when "searchResultReturned"
                     links = event.message
+                    if links.length is 0 or links.length is 1
+                        disable prevButton
+                        disable nextButton
+                    if links.length is 0
+                        disable popoutButton
+                        displayNoSearchResult()
                     safari.self.tab.dispatchMessage "requestPage", links[0]
 
                 when "pageReturned"
@@ -89,6 +97,10 @@ Order of addition/removal might be important here to avoid flickering.
             button.classList.remove "enabled"
             button.classList.add "enabled"
             button.classList.remove "disabled"
+
+        displayNoSearchResult = ->
+            noResultText = document.getElementById "side-search-tab-noResult"
+            # noResultText.setAttribute "visibility", "visible"
 
 
         safari.self.tab.dispatchMessage "requestTemplate"
