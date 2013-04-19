@@ -27,6 +27,19 @@ Initially, request the template string.
                     tab.setAttribute "id", "side-search-tab"
                     tab.innerHTML = template
                     document.getElementsByTagName("body")[0].appendChild tab
+
+Prevent scrolling outside area inside the tab
+
+                    tab.addEventListener "mouseover", ->
+                        document.body.style.overflow = "hidden"
+                    tab.addEventListener "mouseout", ->
+                        document.body.style.overflow = "auto"
+
+                    prevButton = document.getElementById "side-search-button-prev"
+                    nextButton = document.getElementById "side-search-button-next"
+                    popoutButton = document.getElementById "side-search-button-popout"
+                    closeButton = document.getElementById "side-search-button-close"
+
                     activateNavigationButtons()
 
                 when "showSearchTab"
@@ -57,11 +70,6 @@ we then specify which link page we want to fetch.
                     iframeContent.close()
 
         activateNavigationButtons = ->
-            prevButton = document.getElementById "side-search-button-prev"
-            nextButton = document.getElementById "side-search-button-next"
-            popoutButton = document.getElementById "side-search-button-popout"
-            closeButton = document.getElementById "side-search-button-close"
-
             prevButton.addEventListener "click", (e) ->
                 enable nextButton
                 if currentPageIndex > 0
